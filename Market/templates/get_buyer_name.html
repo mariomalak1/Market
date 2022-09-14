@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block body %}
+    <br>
+    <div class="container">
+        <div class = "content-section">
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">ادخال منتجات</legend>
+                    <div class="form-group" >
+                        <datalist id="buyers_name_list">
+                            {% for name in list_names %}
+                                <option value="{{ name }}">{{ name }}</option>
+                            {% endfor %}
+                        </datalist>
+                            {{ form.name_buyer.label(class = "form-control-label") }}
+                            {% if form.name_buyer.errors %}
+                                {{ form.name_buyer(list = "buyers_name_list", class = "form-control is-invalid") }}
+                                <div class = "invalid-feedback">
+                                    {% for error in form.name_buyer.errors %}
+                                        <span> {{ error }} </span>
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.name_buyer(list = "buyers_name_list",class = "form-control") }}
+                            {% endif %}
+                    </div>
+
+                    {{ form.submit(class = "btn btn-primary btn-lg btn-block") }}
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

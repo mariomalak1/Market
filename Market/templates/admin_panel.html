@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+{% block admin_panel %}
+    <a class="dropdown-item" href="{{ url_for("home") }}">الرئيسية</a>
+{% endblock %}
+{% block body %}
+    <a href="{{ url_for("user_display") }}"><div class="btn btn-primary btn-lg btn-block">عرض المستخدمين</div></a>
+    <br>
+    <a href="{{ url_for("buyers_display") }}"><div class="btn btn-primary btn-lg btn-block">عرض المشتريين</div></a>
+    <br>
+    <a href="{{ url_for("choose_date") }}"><div class="btn btn-primary btn-lg btn-block">عرض منتجات يوم محدد</div></a>
+    <br>
+    <a href="{{ url_for("signup") }}"><div class="btn btn-primary btn-lg btn-block">انشاء مستخدم جديد</div></a>
+    <br>
+    <a href="{{ url_for("today_sales") }}"><div class="btn btn-primary btn-lg btn-block">عرض مبيعات اليوم</div></a>
+    <br>
+{% endblock %}

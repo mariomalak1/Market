@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="container">
+        <div class = "content-section">
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">انشاء مشتري</legend>
+
+                    <div class="form-group" >
+                        {{ form.name.label(class = "form-control-label") }}
+                        {% if form.name.errors %}
+                            {{ form.name(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class = "form-control") }}
+                        {% endif %}
+                      </div>
+
+
+                    <div class="form-group" >
+                        {{ form.description.label(class = "form-control-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class = "form-control") }}
+                        {% endif %}
+                      </div>
+
+
+                    <div class="form-group" >
+                        {{ form.phone_num.label(class = "form-control-label") }}
+                        {% if form.phone_num.errors %}
+                            {{ form.phone_num(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.phone_num.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.phone_num(class = "form-control") }}
+                        {% endif %}
+                      </div>
+
+                    <div class="form-group" >
+                        {{ form.discount.label(class = "form-control-label") }}
+                        {% if form.discount.errors %}
+                            {{ form.discount(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.discount.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.discount(class = "form-control") }}
+                        {% endif %}
+                      </div>
+
+                      <div class="form-group" >
+                        {{ form.money_on_him.label(class = "form-control-label") }}
+                        {% if form.money_on_him.errors %}
+                            {{ form.money_on_him(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.money_on_him.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.money_on_him(class = "form-control") }}
+                        {% endif %}
+                      </div>
+                      <div class="form-group" >
+                        {{ form.money_he_pay.label(class = "form-control-label") }}
+                        {% if form.money_on_him.errors %}
+                            {{ form.money_he_pay(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.money_he_pay.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.money_he_pay(class = "form-control") }}
+                        {% endif %}
+                      </div>
+
+                    <br>
+                {{ form.submit(class="btn btn-primary btn-lg btn-block") }}
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}
