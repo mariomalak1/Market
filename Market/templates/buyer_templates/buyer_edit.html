@@ -1,0 +1,84 @@
+{% extends "main/base.html" %}
+{% block body %}
+    <div class="container">
+        <div class = "content-section">
+            <form method="post" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">عرض بيانات المشتري</legend>
+
+                    <div class="form-group">
+                        {{ form.name_non_edit.label(class = "form-control-label") }}
+                        {{ form.name_non_edit(class = "form-control", value = buyer.name) }}
+                    </div>
+
+
+                    <div class="form-group">
+                        {{ form.description.label(class = "form-control-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class = "form-control is-invalid", value = buyer.description) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class = "form-control", value = buyer.description) }}
+                        {% endif %}
+                    </div>
+
+
+                    <div class="form-group">
+                        {{ form.discount.label(class = "form-control-label") }}
+                        {% if form.discount.errors %}
+                            {{ form.discount(class = "form-control is-invalid", value = buyer.discount) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.discount.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.discount(class = "form-control", value = buyer.discount) }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.phone_num.label(class = "form-control-label") }}
+                        {% if form.phone_num.errors %}
+                            {{ form.phone_num(class = "form-control is-invalid", value = buyer.phone_num) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.phone_num.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.phone_num(class = "form-control", value = buyer.phone_num) }}
+                        {% endif %}
+                    </div>
+
+                    {{ form.money_on_him_non_edit.label(class = "form-control-label") }}
+                    {{ form.money_on_him_non_edit(class = "form-control", value = buyer.money_on_him) }}
+
+                    <div class="form-group">
+                        {{ form.money_he_pay.label(class = "form-control-label") }}
+                        {% if form.money_he_pay.errors %}
+                            {{ form.money_he_pay(class = "form-control is-invalid", value = buyer.money_he_pay) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.money_he_pay.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.money_he_pay(class = "form-control", value = buyer.money_he_pay) }}
+                        {% endif %}
+                    </div>
+
+                    <br>
+
+                    {{ form.submit(class="btn btn-primary btn-lg btn-block") }}
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

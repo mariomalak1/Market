@@ -24,7 +24,7 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
           <div class="container">
-          <a class="navbar-brand mr-4" href="{{ url_for("home") }}">الرئيسية</a>
+          <a class="navbar-brand mr-4" href="{{ url_for("main.home") }}">الرئيسية</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -36,16 +36,16 @@
                         خيارات
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{{ url_for("change_password") }}">تغير الرقم السري</a>
+                        <a class="dropdown-item" href="{{ url_for("user.change_password") }}">تغير الرقم السري</a>
                         {% if current_user.IsAdmin() %}
-                            <a class="dropdown-item" href="{{ url_for("change_user_information") }}">تغير بيانات لمستخدم</a>
+                            <a class="dropdown-item" href="{{ url_for("user.change_user_information") }}">تغير بيانات لمستخدم</a>
                             {% block admin_panel %}
-                                <a class="dropdown-item" href="{{ url_for("admin_panel") }}">لوحة الادارة</a>
+                                <a class="dropdown-item" href="{{ url_for("user.admin_panel") }}">لوحة الادارة</a>
                             {% endblock %}
                         {% endif %}
 
                         <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{{ url_for("logout") }}">تسجيل خروج</a>
+                      <a class="dropdown-item" href="{{ url_for("user.logout") }}">تسجيل خروج</a>
                     </div>
                 </div>
 
