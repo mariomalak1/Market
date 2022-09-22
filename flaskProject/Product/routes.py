@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, flash, Blueprint, request
+from flask_sqlalchemy import Pagination
 from werkzeug.routing import BaseConverter
 from Market import db, app
 from Market.Product.forms import *
@@ -8,6 +9,7 @@ from Market.Product.models import Commodity
 from Market.Main.models import Notification
 from Market.User.routes import current_user_is_admin
 from flask_login import current_user, login_required
+
 
 product = Blueprint("product", __name__)
 
@@ -49,20 +51,25 @@ def add_products():
 @product.route("/sales_of_today", endpoint="today_sales", methods = ["GET", "POST"])
 @current_user_is_admin
 def today_sales():
-    products = Commodity.query.all()
     list_of_products = []
     counter = 0
+    products = Commodity.query.all()
     for product_ in products:
-        buyer = Buyer.query.filter_by(id = product_.buyer_id).first()
-        user = User.query.filter_by(id = product_.user_created_good_id).first()
         if product_.date.day == datetime.now().day and product_.date.month == datetime.now().month and product_.date.year == datetime.now().year:
+            buyer = Buyer.query.filter_by(id = product_.buyer_id).first()
+            user = User.query.filter_by(id = product_.user_created_good_id).first()
             counter += 1
             products_list = [product_.name, product_.description, product_.quantity, product_.price, counter, product_.pay_quantity, product_.date, buyer, user, product_.id]
             list_of_products.append(products_list)
-
+    per_page = 15
+    page = request.args.get("page", 1, type=int)
+    start = (page - 1) * per_page
+    end = start + per_page
+    items = list_of_products[start:end]
+    pagination = Pagination(None, page, per_page, len(list_of_products), items)
     n = Notification(notification_name=f"""تم دخول المستخدم {current_user.name} الي صفحة مبيعات اليوم""", user_id=current_user.id)
     db.session.add(n)
-    return render_template("product_templates/Today_sales.html", products = list_of_products, page_title ="مبيعات اليوم")
+    return render_template("product_templates/Today_sales.html", products = pagination, page_title ="مبيعات اليوم")
 
 
 @product.route("/product_edit_<int:product_id>/<place>", endpoint="product_edit", methods = ["POST", "GET"])
@@ -194,11 +201,16 @@ def all_this_product(product_id):
                                 counter += 1
                                 product_user_list = [counter, i, buyer, user]
                                 list_products.append(product_user_list)
-
+                    per_page = 15
+                    page = request.args.get("page", 1, type=int)
+                    start = (page - 1) * per_page
+                    end = start + per_page
+                    items = list_products[start:end]
+                    pagination = Pagination(None, page, per_page, len(list_products), items)
                     n = Notification(notification_name=f"""تم عرض كل المنتجات المباعة من قبل المستخدم المسؤل : {current_user.name}""", user_id=current_user.id)
                     db.session.add(n)
                     db.session.commit()
-                    return render_template("product_templates/all_this_product.html", page_title=f"المنتجات المباعة من {product_.name}", products = list_products)
+                    return render_template("product_templates/all_this_product.html", page_title=f"المنتجات المباعة من {product_.name}", products = pagination)
                 else:
                     n = Notification(
                         notification_name=f"""لقد حاول المستخدم {user.name} الدخول الي الصفحات المخصصة للمسؤل فقد و النظام منعه""",
@@ -239,10 +251,16 @@ def sales_one_day(day, month, year):
                         counter += 1
                         products_list = [counter, product_, buyer, user]
                         list_of_products.append(products_list)
+                per_page = 15
+                page = request.args.get("page", 1, type=int)
+                start = (page - 1) * per_page
+                end = start + per_page
+                items = list_of_products[start:end]
+                pagination = Pagination(None, page, per_page, len(list_of_products), items)
                 n = Notification(notification_name=f"""تم عرض كل المنتجات المباعة اليوم من قبل المستخدم المسؤل : {current_user.name}""",
                     user_id=current_user.id)
                 db.session.add(n)
-                return render_template("product_templates/sales_one_day.html", products = list_of_products)
+                return render_template("product_templates/sales_one_day.html", products = pagination, day = day, month = month, year = year)
             else:
                 n = Notification(
                     notification_name=f"""لقد حاول المستخدم {user.name} الدخول الي الصفحات المخصصة للمسؤل فقد و النظام منعه""",
@@ -329,7 +347,6 @@ def find_product():
                         if product_name.name == form.product_name.data and product_name.user_created_good_id == current_user.id and date_from <= product_name.date <= date_to:
                             list_of_ids.append(product_name.id)
                 if not list_of_ids:
-
                     n = Notification(
                         notification_name=f"""تم بحث المستخدم {current_user.name} عن {form.product_name.data} للمشتري {form.buyer_name.data}و لكن لم يجده""",
                         user_id=current_user.id)
@@ -360,11 +377,10 @@ def display_all_products(buyer_id, list_ids):
         user = User.query.filter_by(id = product_.user_created_good_id).first()
         product_list = [counter, product_, buyer, user]
         list_of_products.append(product_list)
-
     n = Notification(notification_name=f"""{current_user.name} للمشتري  {buyer.name} تم عرض كل المنتجات التي سجلها المستخدم """, user_id=current_user.id)
     db.session.add(n)
 
-    return render_template("product_templates/display_all_products.html", products = list_of_products)
+    return render_template("product_templates/display_all_products.html", products = list_of_products, buyer = buyer)
 
 @product.route("/delete_product_<int:product_id>_<string:place>", endpoint= "delete_product")
 def delete_product(product_id, place):
@@ -383,13 +399,13 @@ def delete_product(product_id, place):
             if user:
                 if user.IsAdmin():
                     user_product = User.query.filter_by(id = product_.user_created_good_id).first()
-                    buyer = Buyer.quer.filter_by(id = product_.buyer_id)
+                    buyer = Buyer.query.filter_by(id = product_.buyer_id).first()
 
                     total = product_.quantity * product_.price
                     money_of_buyer = buyer.money_on_him
                     buyer.money_on_him -= total + ((total / 100) * buyer.discount) + product_.pay_quantity
 
-                    n = Notification(notification_name=f"""تم ازالة بيانات مشتري
+                    n = Notification(notification_name=f"""تم ازالة بيانات منتج
                     اسم المنتج : {product_.name}
                     اسم المشتري : {buyer.name}
                     وصفه : {product_.description}

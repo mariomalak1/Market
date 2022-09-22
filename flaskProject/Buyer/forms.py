@@ -86,7 +86,7 @@ class BuyerEditionForm(FlaskForm):
     description = TextAreaField("وصف")
     discount = IntegerField("خصم", default=0)
     phone_num = StringField("رقم التليفون")
-    last_collection_money = IntegerField("الفلوس اللي دفعها", default=0)
+    last_collection_money = IntegerField("الفلوس اللي دفعها", default=0, render_kw={'readonly': True})
     submit = SubmitField("حفظ")
 
     def validate_phone_num(self, phone_num):

@@ -28,13 +28,15 @@ class ProductForm(FlaskForm):
             raise ValidationError("هذا الاسم غير موجود ضمن الاسماء المضافة, برجاء اعادة  ادخال اسم صحيح او ادخال هذا الاسم في خانة الاسامي الجديدة")
 
     def validate_pay_quantity(self, pay_quantity):
-        if int(self.pay_quantity.data) < 0:
+        if (not self.pay_quantity.data and self.pay_quantity.data != 0) or self.pay_quantity.data < 0:
             raise ValidationError("ضع رقم صحيح")
-        if int(self.pay_quantity.data) > (self.quantity.data * self.price.data):
-            raise ValidationError("هل سيدفع المشتري اكثر مما اخذ؟, من فضلك غير الرقم حد اقصي الي نفس السعر")
-
+        try:
+            if self.pay_quantity.data > (self.quantity.data * self.price.data):
+                raise ValidationError("هل سيدفع المشتري اكثر مما اخذ؟, من فضلك غير الرقم حد اقصي الي نفس السعر")
+        except:
+            raise ValidationError("قم بوضع ارقام في اول خانات")
     def validate_quantity(self, quantity):
-        if int(self.quantity.data) <= 0:
+        if self.quantity.data <= 0:
             raise ValidationError("ضع رقم صحيح")
 
     def validate_date(self, date):

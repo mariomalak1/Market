@@ -1,13 +1,7 @@
-<html lang="en">
+<html lang="ar">
 	<head>
 		<meta charset="utf-8">
 		<title>فاتورة</title>
-{#        {{ url_for("static", filename = "invoice.css") }}#}
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='master_mario.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='invoice.css') }}">
-		<link rel="license" href="https://www.opensource.org/licenses/mit-license/">
-
-
         <style>
 
                         /* reset */
@@ -54,7 +48,7 @@
 
             /* page */
 
-            html { font: 16px/1 'Open Sans', sans-serif; overflow: auto; padding: 0; }
+            html { font: 18px/1 'Open Sans', sans-serif; overflow: auto; padding: 0;}
             html { background: #999; cursor: default; }
 
             body { box-sizing: border-box; height: 11in; margin: 0 auto; overflow: hidden; padding: 0.5in; width: 8.5in; }
@@ -105,7 +99,7 @@
             /* table balance */
 
             table.balance th, table.balance td { width: 50%; }
-            table.balance td { text-align: right; }
+            table.balance td { text-align: left; }
 
             /* aside */
 
@@ -162,52 +156,93 @@
                  min-height: 100%;
                 min-width: 100%;
             }
+            .address_buyer{
+                width: 100%;
+                max-height: 25%;
+            }
+            .address_buyer address{
+                {#font-size: ;#}
+                font-variant-numeric: oldstyle-nums;
+                width: 48%;
+            }
+            .copy-rights{
+                text-align: center;
+                color: #4d5154;
+                font-variant-numeric: oldstyle-nums;
+            }
+            hr{
+                border: 1px black solid;
+                margin-top: 8px;
+                margin-bottom: 5px;
+            }
+            #page_num{
+                font-size: x-large;
+                font-variant-numeric: oldstyle-nums;
+                color: #0a58ca;
+            }
 
         </style>
 	</head>
 	<body>
+    {% block header %}
 		<header>
 			<h1 style="letter-spacing: 0">كشف حساب تاجر</h1>
-			<address contenteditable>
-				<p>الاسم : {{ buyer.name }}</p>
-                {% if buyer.phone_num %}
-                    <p>رقم التليفون : {{ buyer.phone_num }}</p>
-{#                    <br>Orange, CA 92866#}
-                {% else %}
-                    <p>رقم التليفون : لا يوجد</p>
-{#                    <br>Orange, CA 92866#}
-                {% endif %}
-				<p>منشيء المشتري: {{ user.name }}</p>
-				<p>تاريخ اصدار الفاتورة: {{ date_today.strftime("%Y-%m-%d") }}</p>
-			</address>
-			<span><img alt="" src="https://www.behance.net/gallery/150142995/Mario/modules/847853497"><input type="file" accept="image/*"></span>
+            <div class="address_buyer">
+                <address>
+                    <table class="inventory">
+                        <tr>
+                            <td><span contenteditable>{{ buyer.name }}</span></td>
+                            <th><span contenteditable>الاسم</span></th>
+                        </tr>
+
+                        <tr>
+                            {% if buyer.phone_num %}
+                            <td><span contenteditable>{{ buyer.phone_num }}</span></td>
+                            {% else %}
+                            <td><span contenteditable>لا يوجد</span></td>
+                            {% endif %}
+                            <th><span contenteditable>رقم التليفون</span></th>
+                        </tr>
+
+                        <tr>
+                            <td><span contenteditable>{{ user.name }}</span></td>
+                            <th><span contenteditable>منشيء المشتري</span></th>
+                        </tr>
+                        <tr>
+                            <td><span contenteditable>{{ current_user.name }}</span></td>
+                            <th><span contenteditable>مستخرج الفاتورة</span></th>
+                        </tr>
+
+                    </table>
+                </address>
+
+            <address>
+                <table class="inventory">
+                    <tr>
+                        <td><span contenteditable>{{ date_from.strftime("%Y-%m-%d") }}</span></td>
+                        <th><span contenteditable>من تاريخ</span></th>
+                    </tr>
+
+                    <tr>
+                        <td><span contenteditable>{{ date_to.strftime("%Y-%m-%d") }}</span></td>
+                        <th><span contenteditable>الي تاريخ</span></th>
+                    </tr>
+                    <tr>
+                        <td><span contenteditable>{{ date_today.strftime("%Y-%m-%d %H:%M:%S") }}</span></td>
+                        <th><span contenteditable>تاريخ و وقت اصدار الفاتورة</span></th>
+                    </tr>
+                    <tr>
+                        <td><span >{{ num_pages }}</span></td>
+                        <th><span contenteditable>عدد صفحات الفاتورة</span></th>
+                    </tr>
+
+
+                </table>
+            </address>
+            </div>
 		</header>
+    {% endblock %}
 		<article>
-			<table class="meta">
-				<tr>
-                    <td><span contenteditable>{{ buyer.name }}</span></td>
-                    <th><span contenteditable>الاسم</span></th>
-				</tr>
-				<tr>
-                    <td><span contenteditable>{{ date_from.strftime("%Y-%m-%d") }}</span></td>
-                    <th><span contenteditable>من تاريخ</span></th>
-				</tr>
-
-                <tr>
-                    <td><span contenteditable>{{ date_to.strftime("%Y-%m-%d") }}</span></td>
-                    <th><span contenteditable>الي تاريخ</span></th>
-				</tr>
-
-                <tr>
-                    <td><span contenteditable>{{ current_user.name }}</span></td>
-                    <th><span contenteditable>مستخرج الفاتورة</span></th>
-				</tr>
-
-{#                <tr>#}
-                {#					<td><span id="prefix" contenteditable>ج</span><span>{{ buyer.money_on_him }}</span></td>#}
-                {#					<th><span contenteditable>الاجمالي </span></th>#}
-{#				</tr>#}
-			</table>
 			<table class="inventory">
 				<thead>
 					<tr>
@@ -238,23 +273,36 @@
                 {% endfor %}
 				</tbody>
 			</table>
-			<table class="balance">
-				<tr>
-                    <td><span data-prefix>ج </span><span contenteditable>{{ total_products_money }}</span></td>
-                    <th><span contenteditable>الاجمالي</span></th>
-				</tr>
-				<tr>
-                    <td><span data-prefix>ج </span><span contenteditable>{{ perivous_money_history }}</span></td>
-                    <th><span contenteditable>ما قبله</span></th>
-				</tr>
-				<tr>
-                    <td><span data-prefix>ج </span><span contenteditable>{{ buyer.last_collection_money }}</span></td>
-                    <th><span contenteditable>اخر تحصيل</span></th>
-				</tr>
-			</table>
+            {% if num_page == -1 %}
+                <table class="inventory">
+				<thead>
+					<tr>
+                        <th><span>ما قبله</span></th>
+                        <th><span>اخر تحصيل</span></th>
+                        <th><span>الاجمالي</span></th>
+                    </tr>
+				</thead>
+				<tbody>
+                    <tr>
+                        <td><span data-prefix>ج </span><span contenteditable>{{ perivous_money_history }}</span></td>
+                        <td><span data-prefix>ج </span><span contenteditable>{{ buyer.last_collection_money }}</span></td>
+                        <td><span data-prefix>ج </span><span contenteditable>{{ total_products_money }}</span></td>
+                    </tr>
+				</tbody>
+                </table>
+            {% endif %}
 		</article>
+
 		<aside>
-			<h1><span contenteditable>Mario Malak</span></h1>
+            <div class="copy-rights">
+                <span>Programing of website made by Mario-Malak@2022 <br></span>
+                <hr>
+                {% if num_page == -1 %}
+                    <div>اخر صفحة</div>
+                {% else %}
+                      <div>صفحة رقم {{ num_page }}</div>
+                {% endif %}
+            </div>
 		</aside>
 	</body>
 </html>

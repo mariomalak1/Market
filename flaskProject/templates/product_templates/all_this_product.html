@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-      {% for product in products %}
+      {% for product in products.items %}
           <tr>
 
               <td> <a href="{{ url_for("product.product_edit", product_id = product[1].id, place = "all_products") }}"> {{ product[0] }} </a> </td>
@@ -29,8 +29,19 @@
               <td> <a href="{{ url_for("user.user_info", user_id = product[3].id) }}"> {{ product[3].name }} </a> </td>
 
         </tr>
-
       {% endfor %}
       </tbody>
     </table>
+    {% for page_num in products.iter_pages(left_edge= 1, right_edge = 1, left_current = 1, right_current= 2) %}
+        {% if page_num %}
+            {% if page_num == last_notification.page %}
+                <a class="btn btn-info mb-4" href="{{ url_for("product.all_this_product", page = page_num, product_id = products.items[0][1].id) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info" href="{{ url_for("product.all_this_product", page = page_num, product_id = products.items[0][1].id) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+    <br>
 {% endblock %}

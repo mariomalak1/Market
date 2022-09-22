@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-      {% for product in products %}
+      {% for product in products.items %}
 
           <tr>
             <td> <a href="{{ url_for("product.product_edit", product_id = product[1].id, place = "sales_one_day") }}"> {{ product[0] }} </a> </td>
@@ -36,4 +36,16 @@
       {% endfor %}
       </tbody>
     </table>
+    {% for page_num in products.iter_pages(left_edge= 1, right_edge = 1, left_current = 1, right_current= 2) %}
+        {% if page_num %}
+            {% if page_num == products.page %}
+                <a class="btn btn-info mb-4" href="{{ url_for("product.sales_one_day", page = page_num, day = day, month = month, year = year) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info" href="{{ url_for("product.sales_one_day", page = page_num, day = day, month = month, year = year) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+                ...
+        {% endif %}
+    {% endfor %}
+    <br>
 {% endblock %}

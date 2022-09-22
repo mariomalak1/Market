@@ -54,4 +54,16 @@
 
       </tbody>
     </table>
+{#    {% for page_num in products.iter_pages(left_edge= 1, right_edge = 1, left_current = 1, right_current= 2) %}#}
+{#        {% if page_num %}#}
+{#            {% if page_num == products.page %}#}
+{#                <a class="btn btn-info mb-4" href="{{ url_for("product.display_all_products", page = page_num, buyer_id = buyer.id, list_ids = products.items) }}">{{ page_num }}</a>#}
+{#            {% else %}#}
+{#                <a class="btn btn-outline-info" href="{{ url_for("product.display_all_products", page = page_num, buyer_id = buyer.id, list_ids = products.items) }}">{{ page_num }}</a>#}
+{#            {% endif %}#}
+{#        {% else %}#}
+{#                ...#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+{#    <br>#}
 {% endblock %}
