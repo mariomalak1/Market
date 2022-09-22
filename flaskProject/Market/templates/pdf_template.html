@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+{#    <link rel="stylesheet" href="{{ url_for("static", filename = "master_mario.css") }}">#}
+    <title>pdf</title>
+</head>
+<body>
+    <div class = "container">
+    <div class="content">    <h2>كشف حساب تاجر</h2> </div>
+        {% if products %}
+            <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">مسلسل رقم</th>
+                        <th scope="col">التاريخ</th>
+                        <th scope="col">اسم المنتج</th>
+                        <th scope="col">وزن</th>
+                        <th scope="col">عدد بوكس</th>
+                        <th scope="col">السعر</th>
+                        <th scope="col">الاجمالي</th>
+                        <th scope="col">قيمة الدفعة</th>
+                        <th scope="col">مدين</th>
+                        <th scope="col">ملاحظات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product[0] }}</td>
+                        <td>{{ product[1].date.strftime("%d-%m-%y") }}</td>
+                        <td>{{ product[1].name }}</td>
+                        <td>{{ product[1].quantity }}</td>
+                        <td>{{ product[1].quantity }}</td>
+                        <td>{{ product[1].price }}</td>
+                        <td>{{ product[1].price * product[1].quantity }}</td>
+                        <td>{{ product[1].pay_quantity }}</td>
+                        <td>{{ ( product[1].price * product[1].quantity ) - product[1].pay_quantity }}</td>
+                        <td>مبيعات</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h1> لا يوجد منتجات مضافة </h1>
+        {% endif %}
+    </div>
+</body>
+</html>

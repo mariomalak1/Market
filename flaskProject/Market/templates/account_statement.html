@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="container">
+        <div class = "content-section">
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">كشف حساب</legend>
+
+                    <div class="form-group" >
+                        <datalist id="buyers_name_list">
+                            {% for name in list_names %}
+                                <option value="{{ name }}">{{ name }}</option>
+                            {% endfor %}
+                        </datalist>
+                        {{ form.buyer_name.label(class = "form-control-label") }}
+                        {% if form.buyer_name.errors %}
+                            {{ form.buyer_name(list = "buyers_name_list", class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.buyer_name.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.buyer_name(list = "buyers_name_list", class = "form-control") }}
+                        {% endif %}
+                      </div>
+
+
+                    <div class="form-group" >
+                        {{ form.date_from.label(class = "form-control-label") }}
+                        {% if form.date_from.errors %}
+                            {{ form.date_from(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.date_from.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.date_from(class = "form-control") }}
+                        {% endif %}
+                      </div>
+
+                    <div class="form-group" >
+                        {{ form.date_to.label(class = "form-control-label") }}
+                        {% if form.date_from.errors %}
+                            {{ form.date_to(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.date_to.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.date_to(class = "form-control") }}
+                        {% endif %}
+                      </div>
+
+                {{ form.submit(class = "btn btn-primary btn-lg btn-block") }}
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}
