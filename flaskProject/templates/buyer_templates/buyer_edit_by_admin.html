@@ -1,0 +1,190 @@
+{% extends "main/base.html" %}
+{% block body %}
+    <div class="container">
+        <div class = "content-section">
+            <form method="post" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                {% if user.IsAdmin() %}
+                    <legend class="border-bottom mb-4">عرض صفحة المشتري</legend>
+                {% endif %}
+                {% if user.IsAdmin() %}
+
+                    <div class="form-group">
+                        {{ form.name.label(class = "form-control-label") }}
+                        {% if form.name.errors %}
+                            {{ form.name(class = "form-control is-invalid", value = buyer.name) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class = "form-control", value = buyer.name) }}
+                        {% endif %}
+                    </div>
+
+                {% endif %}
+
+
+                    <div class="form-group">
+                        {{ form.description.label(class = "form-control-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class = "form-control is-invalid", value = buyer.description) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class = "form-control", value = buyer.description) }}
+                        {% endif %}
+                    </div>
+
+
+                    <div class="form-group">
+                        {{ form.discount.label(class = "form-control-label") }}
+                        {% if form.discount.errors %}
+                            {{ form.discount(class = "form-control is-invalid", value = buyer.discount) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.discount.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.discount(class = "form-control", value = buyer.discount) }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.phone_num.label(class = "form-control-label") }}
+                        {% if form.phone_num.errors %}
+                            {{ form.phone_num(class = "form-control is-invalid", value = buyer.phone_num) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.phone_num.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.phone_num(class = "form-control", value = buyer.phone_num) }}
+                        {% endif %}
+                    </div>
+
+                {% if user.IsAdmin() %}
+                    <div class="form-group">
+                        {{ form.money_on_him.label(class = "form-control-label") }}
+                        {% if form.money_on_him.errors %}
+                            {{ form.money_on_him(class = "form-control is-invalid", value = buyer.money_on_him) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.money_on_him.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.money_on_him(class = "form-control", value = buyer.money_on_him) }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                    <div class="form-group">
+                        {{ form.last_collection_money.label(class = "form-control-label") }}
+                        {% if form.last_collection_money.errors %}
+                            {{ form.last_collection_money(class = "form-control is-invalid", value = buyer.last_collection_money) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.last_collection_money.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.last_collection_money(class = "form-control", value = buyer.last_collection_money) }}
+                        {% endif %}
+                    </div>
+
+                    <br>
+
+                    {{ form.submit(class="btn btn-primary btn-lg btn-block") }}
+
+
+                {% if user.IsAdmin() %}
+{#                    <a href="{{ url_for("product.delete_product", product_id = product.id, place = "main.admin_panel") }}" class = "btn btn-primary btn-lg btn-block"></a>#}
+
+                    <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#deleteModal">مسح المشتري</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">تاكيد مسح المشتري</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            هل انت متاكد انك تريد ان تمسح هذا المشتري ؟<br>
+                              لاحظ ان اذا تم ازالة هذا المشتري ستزال كل منتجاته و معاملاته المالية !
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                            <a type="button" href="{{ url_for("buyer.delete_buyer", buyer_id = buyer.id, place = "main.admin_panel") }}" class="btn btn-danger">تاكيد</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end of modal  -->
+
+                {% endif %}
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+
+    {% if user.IsAdmin() %}
+        <div class="container">
+            <div class = "content-section">
+                {% if buyer.goods %}
+
+                    <h3>المنتجات</h3>
+                    <table class="table table-hover table-dark">
+                        <thead>
+                        <tr>
+
+                            <th scope="col">مسلسل رقم</th>
+                            <th scope="col">اسم المنتج</th>
+                            <th scope="col">الوصف</th>
+                            <th scope="col">الكمية</th>
+                            <th scope="col">السعر</th>
+                            <th scope="col">دفع كام منهم</th>
+                            <th scope="col">التاريخ</th>
+                            <th scope="col">المستخدم اللي عمل المعاملة</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for product in products %}
+                                <tr>
+                                    <td> <a href="{{ url_for("product.all_this_product", product_id = product[1].id) }}"> {{ product[0] }} </a> </td>
+                                    <td> <a href="{{ url_for("product.all_this_product", product_id = product[1].id) }}"> {{ product[1].name }} </a> </td>
+                                    <td> <a href="{{ url_for("product.all_this_product", product_id = product[1].id) }}"> {{ product[1].description }} </a> </td>
+                                    <td> <a href="{{ url_for("product.all_this_product", product_id = product[1].id) }}"> {{ product[1].quantity }} </a> </td>
+                                    <td> <a href="{{ url_for("product.all_this_product", product_id = product[1].id) }}"> {{ product[1].price }} </a> </td>
+                                    <td> <a href="{{ url_for("product.all_this_product", product_id = product[1].id) }}"> {{ product[1].pay_quantity }} </a> </td>
+                                    <td> <a href="{{ url_for("product.all_this_product", product_id = product[1].id) }}"> {{ product[1].date.strftime("%Y-%m-%d") }} </a> </td>
+                                    <td> <a href="{{ url_for("user.user_info", user_id = product[2].id, place = "buyers_display") }}"> {{ product[2].name }} </a> </td>
+
+                                </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h2>لا يوجد منتجات له لعرضها</h2>
+                    <br>
+                    <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("product.add_products") }}"> اضافة منتج </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block sidebar %}
+{% endblock %}
+{#{% block login_page %}#}
+{#{% endblock %}#}
+{% block body %}
+    <div class="container">
+        <div class = "content-section">
+            <form method="post" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">انشاء مستخدم جديد</legend>
+
+                    <div class="form-group">
+                        {{ form.username.label(class = "exampleInputEmail1") }}
+                        {% if form.username.errors %}
+                            {{ form.username(class = "form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class = "form-control") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.password.label(class = "form-control-label") }}
+                        {% if form.password.errors %}
+                            {{ form.password(class = "form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class = "form-control") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.password_confirmation.label(class = "form-control-label") }}
+                        {% if form.password_confirmation.errors %}
+                            {{ form.password_confirmation(class = "form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password_confirmation.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password_confirmation(class = "form-control") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.phone_num.label(class = "form-control-label") }}
+                        {% if form.phone_num.errors %}
+                            {{ form.phone_num(class = "form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.phone_num.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.phone_num(class = "form-control") }}
+                        {% endif %}
+                    </div>
+
+
+                    <div class="form-group">
+                        {{ form.salary.label(class = "form-control-label") }}
+                        {% if form.salary.errors %}
+                            {{ form.salary(class = "form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.salary.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.salary(class = "form-control") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-check">
+                        {{ form.admin(class = "form-check-input") }}
+                        {{ form.admin.label(class = "form-check-label")}}
+                    </div>
+                <br>
+                    {{ form.submit(class="btn btn-primary") }}
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

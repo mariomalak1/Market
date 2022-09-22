@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+{% block body %}
+    <div>
+    <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("main.admin_panel") }}">الادارة</a>
+    </div>
+    <br>
+    <div class="list-group">
+        {% for n in last_notification %}
+          <a class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+{#              <h5 class="mb-1">اسم الاشعار</h5>#}
+              <small>{{ n.date.strftime("%Y-%m-%d %H:%M:%S") }}</small>
+            </div>
+            <p class="mb-1">{{ n.notification_name }}</p>
+            <small>اسم المستخدم : {{ n.user.name }}</small>
+          </a>
+        {% endfor %}
+    </div>
+{% endblock %}

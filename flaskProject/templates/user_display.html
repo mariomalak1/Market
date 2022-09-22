@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block body %}
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">مسلسل رقم</th>
+          <th scope="col">اسم المستخدم</th>
+          <th scope="col">رقم التليفون</th>
+          <th scope="col">المرتب</th>
+          <th scope="col">مسؤل</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for user in users %}
+          <tr>
+
+            <td> <a href="{{ url_for("user_info", user_id = user[5]) }}"> {{ user[4] }} </a> </td>
+
+            <td> <a href="{{ url_for("user_info", user_id = user[5]) }}"> {{ user[0] }} </a> </td>
+
+            {% if user[3] == "" %}
+               <td> <a href="{{ url_for("user_info", user_id = user[5]) }}"> لا يوجد</a> </td>
+            {% else %}
+               <td> <a href="{{ url_for("user_info", user_id = user[5]) }}"> {{ user[3] }} </a> </td>
+            {% endif %}
+
+               <td> <a href="{{ url_for("user_info", user_id = user[5]) }}"> {{ user[2] }} </a> </td>
+
+            {% if user[1] %}
+                <td> <a href="{{ url_for("user_info", user_id = user[5]) }}"> مسؤل </a> </td>
+            {% else %}
+                <td> <a href="{{ url_for("user_info", user_id = user[5]) }}">غير مسؤل </a> </td>
+            {% endif %}
+
+        </tr>
+
+      {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
+
+

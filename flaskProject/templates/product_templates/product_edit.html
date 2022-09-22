@@ -1,0 +1,164 @@
+{% extends "main/base.html" %}
+{% block body %}
+    <br>
+    <div class="container">
+        <div class = "content-section">
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">تغير المنتج</legend>
+
+
+                    <div class="form-group" >
+                        {{ form.name.label(class = "form-control-label") }}
+                        {% if form.name.errors %}
+                            {{ form.name(class = "form-control is-invalid", value = product) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class = "form-control", value = product.name) }}
+                        {% endif %}
+                    </div>
+
+
+                <div class="form-group" >
+                        {{ form.price.label(class = "form-control-label") }}
+                        {% if form.price.errors %}
+                            {{ form.price(class = "form-control is-invalid", value = product.price) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.price.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.price(class = "form-control", value = product.price) }}
+                        {% endif %}
+                </div>
+
+
+                <div class="form-group" >
+{#                    <datalist id="buyers_name_list">#}
+{#                list = "buyers_name_list", #}
+{#                list = "buyers_name_list",#}
+{#                        {% for name in list_names %}#}
+{#                            <option value="{{ name }}">{{ name }}</option>#}
+{#                        {% endfor %}#}
+{#                    </datalist>#}
+                        {{ form.name_buyer.label(class = "form-control-label") }}
+                        {% if form.name_buyer.errors %}
+                            {{ form.name_buyer(class = "form-control is-invalid", value = buyer.name) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.name_buyer.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name_buyer(class = "form-control", value = buyer.name) }}
+                        {% endif %}
+                </div>
+
+
+                    <div class="form-group" >
+                        {{ form.quantity.label(class = "form-control-label") }}
+                        {% if form.quantity.errors %}
+                            {{ form.quantity(class = "form-control is-invalid", value = product.quantity) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.quantity.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.quantity(class = "form-control", value = product.quantity) }}
+                        {% endif %}
+                    </div>
+
+                <div class="form-group" >
+                        {{ form.date.label(class = "form-control-label") }}
+                        {% if form.date.errors %}
+                            {{ form.date(class = "form-control is-invalid") }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.date.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.date(class = "form-control") }}
+                        {% endif %}
+                    </div>
+
+
+                    <div class="form-group" >
+                        {{ form.pay_quantity.label(class = "form-control-label") }}
+                        {% if form.pay_quantity.errors %}
+                            {{ form.pay_quantity(class = "form-control is-invalid", value = product.pay_quantity) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.pay_quantity.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.pay_quantity(class = "form-control", value = product.pay_quantity) }}
+                        {% endif %}
+                    </div>
+
+
+
+                    <div class="form-group" >
+                        {{ form.description.label(class = "form-control-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class = "form-control is-invalid", value = product.description) }}
+                            <div class = "invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span> {{ error }} </span>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class = "form-control", value = product.description) }}
+                        {% endif %}
+                    </div>
+
+
+                    {{ form.submit(class = "btn btn-primary btn-lg btn-block") }}
+                {% if user.IsAdmin() %}
+{#                    <a href="{{ url_for("product.delete_product", product_id = product.id, place = "main.admin_panel") }}" class = "btn btn-primary btn-lg btn-block"></a>#}
+
+                    <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#deleteModal">مسح المنتج</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">تاكيد مسح المنتج</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            هل انت متاكد انك تريد ان تمسح هذا المنتج ؟<br>
+                              !لاحظ ان هذه حساب هذا المنتج سوف يخصم من قبل المشتري الخاص بيه
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                            <a type="button" href="{{ url_for("product.delete_product", product_id = product.id, place = "main.admin_panel") }}" class="btn btn-danger">تاكيد</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end of modal  -->
+
+                {% endif %}
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}
