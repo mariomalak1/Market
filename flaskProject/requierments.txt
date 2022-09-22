@@ -8,18 +8,17 @@
 - make notification - done
 - replace all money_he_pay by last_collection in any edit or modify form - done
 - notification bar - done
+- Modify all money transactions after any edition - done
+- modify user delete error happen after it - done
+- Modify all money transactions after delete - done
+- adjust margin page of pdf - or - do another pdf - or - make an algorithm that handle pdf templates and make more than one template of them - done
+- notification pagination - done
+- product sales today pagination - done
+- product display specific day pagination - done
+- buyers display pagination - done
 
-- unique name of product and buyer (date base modify) - semi done
-- User's daily collection (date base modify -> add daily collection field) - don't do this
+- unique name of product and buyer (date base modify) - semi done - I don't make it in database I made it in forms only 
 
 - make copyrights for site
-- remove "mario malak" from invoice, put instead of this the copyrights
-- adjust margin page of pdf
 - handel error pages to your templates
-
-- Modify all money transactions after any edition - semi done
-
-- Modify all money transactions after delete
-- modify user delete error happen after it
-
 
