@@ -20,8 +20,10 @@ from Market.User.routes import user
 from Market.Buyer.routes import buyer
 from Market.Main.routes import main
 from Market.Product.routes import product
+from Market.errors.handlers import errors
 
 app.register_blueprint(user)
 app.register_blueprint(buyer)
 app.register_blueprint(product)
 app.register_blueprint(main)
+app.register_blueprint(errors)

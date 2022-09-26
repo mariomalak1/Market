@@ -1,9 +1,12 @@
+import datetime
+
 from flask import render_template, Blueprint, request
 from flask_login import login_required
 from Market import db
 from Market.User.routes import current_user_is_admin, current_user
 from Market.Main.models import Notification
 from Market.Buyer.models import Buyer
+
 # application's code here
 
 main = Blueprint("main", __name__)
@@ -30,13 +33,21 @@ def admin_panel():
 
     last_notification = []
     n = Notification.query.order_by(Notification.date.desc()).all()
-    for i in range(6):
-        last_notification.append(n[i])
+    try:
+        for i in range(6):
+            last_notification.append(n[i])
+    except:
+        pass
     return render_template("main/admin_panel.html", page_title ="صفحة الادارة و التحكم", total_money_in_market = total_money_in_market, last_notification = last_notification )
 
 @main.route("/display_all_notification", endpoint= "display_all_notification")
 @current_user_is_admin
 def display_all_notification():
+    n = Notification.query.all()
+    for i in n:
+        if i.date.day == datetime.datetime.now().day - 20:
+            db.session.delete(i)
+    db.session.commit()
     page = request.args.get("page", 1, type=int)
     n = Notification.query.order_by(Notification.date.desc()).paginate(page=page, per_page=20)
     return render_template("main/display_all_notification.html", last_notification = n)

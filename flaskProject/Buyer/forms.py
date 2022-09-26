@@ -28,11 +28,17 @@ class MakeBuyerForm(FlaskForm):
                 raise ValidationError("قم بادخال رقم هاتف صحيح")
 
     def validate_discount(self, discount):
-        if int(self.discount.data) < 0:
+        if self.discount.data is not None:
+            if int(self.discount.data) < 0:
+                raise ValidationError("ضع رقم صحيح")
+        else:
             raise ValidationError("ضع رقم صحيح")
 
     def validate_money_on_him(self, money_on_him):
-        if int(self.money_on_him.data) < 0:
+        if self.money_on_him.data is not None:
+            if int(self.money_on_him.data) < 0:
+                raise ValidationError("ضع رقم صحيح")
+        else:
             raise ValidationError("ضع رقم صحيح")
 
     def validate_last_collection_money(self, last_collection_money):
@@ -72,13 +78,18 @@ class AccountStatementForm(FlaskForm):
 
 
     def validate_date_from(self, date_from):
-        if self.date_from.data > datetime.now().date():
+        if self.date_from.data:
+            if self.date_from.data > datetime.now().date():
+                raise ValidationError("لا تدخل تاريخ لم يأتي")
+        else:
             raise ValidationError("لا تدخل تاريخ لم يأتي")
 
     def validate_date_to(self, date_to):
-        if self.date_to.data > datetime.now().date():
+        if self.date_to.data:
+            if self.date_to.data > datetime.now().date():
+                raise ValidationError("لا تدخل تاريخ لم يأتي")
+        else:
             raise ValidationError("لا تدخل تاريخ لم يأتي")
-
 
 class BuyerEditionForm(FlaskForm):
     name_non_edit = StringField("الاسم", validators=[Length(max=100, min=2)], render_kw={'readonly': True})
@@ -101,7 +112,10 @@ class BuyerEditionForm(FlaskForm):
                 raise ValidationError("قم بادخال رقم هاتف صحيح")
 
     def validate_discount(self, discount):
-        if int(self.discount.data) < 0:
+        if self.discount.data:
+            if int(self.discount.data) < 0:
+                raise ValidationError("ضع رقم صحيح")
+        else:
             raise ValidationError("ضع رقم صحيح")
 
     def validate_last_collection_money(self, last_collection_money):
@@ -122,7 +136,10 @@ class AllSalesInDate(FlaskForm):
     submit = SubmitField("بحث")
 
     def validate_date(self, date):
-        if self.date.data > datetime.now().date():
+        if self.date.data:
+            if self.date.data > datetime.now().date():
+                raise ValidationError("لا تدخل تاريخ لم يأتي")
+        else:
             raise ValidationError("لا تدخل تاريخ لم يأتي")
 
 class CollectionMoneyForm(FlaskForm):
@@ -136,14 +153,17 @@ class CollectionMoneyForm(FlaskForm):
             raise ValidationError("لا تدخل تاريخ لم يأتي")
 
     def validate_money_he_pay(self, money_he_pay):
-        if self.money_he_pay.data is not None:
-            if int(self.money_he_pay.data) <= 0:
-                raise ValidationError("ضع رقم صحيح")
-        buyer = Buyer.query.filter_by(name = self.buyer_name.data).first()
-        if buyer:
-            if buyer.money_on_him < self.money_he_pay.data:
-                raise ValidationError("هل سيدفع المشتري اكثر مما اخذ؟, من فضلك غير الرقم حد اقصي الي نفس السعر الذي علي المشتري")
-
+        # if self.money_he_pay.data is not None:
+        if int(self.money_he_pay.data) <= 0:
+            raise ValidationError("ضع رقم صحيح")
+        else:
+            buyer = Buyer.query.filter_by(name=self.buyer_name.data).first()
+            if buyer:
+                if buyer.money_on_him < self.money_he_pay.data:
+                    raise ValidationError(
+                        "هل سيدفع المشتري اكثر مما اخذ؟, من فضلك غير الرقم حد اقصي الي نفس السعر الذي علي المشتري")
+        # else:
+        #     raise ValidationError("ضع رقم صحيح")
     def validate_buyer_name(self, buyer_name):
         list_user = Buyer.query.all()
         list_names = []

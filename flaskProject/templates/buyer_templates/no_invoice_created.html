@@ -1,0 +1,8 @@
+{% extends "main/base.html" %}
+{% block body %}
+    <h1>لا يوجد ل{{ buyer.name }} منتجات في هذه الفترة</h1>
+    <br>
+    <a href="{{ url_for("product.add_products") }}">
+        <div class="btn btn-primary btn-lg btn-block">ادخال مشتريات </div>
+    </a>
+{% endblock %}

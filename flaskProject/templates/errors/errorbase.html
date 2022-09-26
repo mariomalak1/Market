@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename = "error.css") }}">
+        <title>error {{ error_name }}</title>
+    </head>
+    <body>
+        <section class="notFound">
+            <div class="img">
+            <img src="https://assets.codepen.io/5647096/backToTheHomepage.png" alt="Back to the Homepage"/>
+            <img src="https://assets.codepen.io/5647096/Delorean.png" alt="El Delorean, El Doc y Marti McFly"/>
+            </div>
+            <div class="text">
+            <h1>{{ error_name }}</h1>
+            <h2>{{ error_problem }}</h2>
+            <h3>الرجوع للصفحة الرئيسية ؟</h3>
+            <a href="{{ url_for("main.home") }}" class="yes">نعم</a>
+            </div>
+        </section>
+    </body>
+</html>

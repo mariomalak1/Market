@@ -35,6 +35,7 @@ def make_buyer():
          فلوس عليه : {buyer_.money_on_him}
          اخر دفعة : {buyer_.last_collection_money}
         """, user_id=current_user.id)
+        print(buyer_.description)
         db.session.add(buyer_)
         db.session.add(n)
         db.session.commit()
@@ -79,7 +80,10 @@ def list_buyer_some_products(list_buyer_products, num_pages):
 
 def make_pdf(list_buyer_products, user, buyer_, date_from, date_to, total_product_money, num_pages, perivous_money_history, page_num, cond =""):
     path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    try:
+        config = pdfkit.configuration(wkhtmltopdf='bin/wkhtmltopdf-pack')
+    except:
+        config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
     if page_num == 1:
         if cond:
             page_num = -1
@@ -107,6 +111,7 @@ def make_pdf(list_buyer_products, user, buyer_, date_from, date_to, total_produc
         ],
         'no-outline': None,
         "enable-local-file-access": "",
+
     }
     pdf = pdfkit.from_string(rendered, options=options, configuration=config)
     return pdf
@@ -148,6 +153,9 @@ def account_statement_response(buyer_id, date_from_day, date_from_month, date_fr
         while products_length > 0:
             products_length -= 13
             num_pages += 1
+
+    if len(list_buyer_products) == 0:
+        return render_template("buyer_templates/no_invoice_created.html", buyer= buyer_)
 
     # list to get all pdf pages in it
     list_pages_of_pdf = []
@@ -246,6 +254,7 @@ def buyer_edit_admin_user(buyer_id, place):
         else:
             if user:
                 if user.IsAdmin():
+                    form.description.data = buyer_data.description
                     if form.validate_on_submit():
                         n = Notification(notification_name=f"""تم تغير بيانات المشتري 
                         الاسم : {buyer_data.name} اصبح: {form.name.data}
@@ -319,6 +328,7 @@ def buyer_edit(buyer_id):
             return redirect(url_for("user.login"))
         else:
             if user:
+                form.description.data = buyer_data.description
                 if form.validate_on_submit():
                     n = Notification(notification_name=f"""تم تغير بيانات المشتري 
                     الاسم : {buyer_data.name}

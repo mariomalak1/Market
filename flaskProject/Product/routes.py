@@ -69,6 +69,7 @@ def today_sales():
     pagination = Pagination(None, page, per_page, len(list_of_products), items)
     n = Notification(notification_name=f"""تم دخول المستخدم {current_user.name} الي صفحة مبيعات اليوم""", user_id=current_user.id)
     db.session.add(n)
+    db.session.commit()
     return render_template("product_templates/Today_sales.html", products = pagination, page_title ="مبيعات اليوم")
 
 
@@ -90,6 +91,7 @@ def product_edit(product_id, place):
         else:
             if user:
                 form = ProductAdminEditForm()
+                form.description.data = product_.description
                 if form.date.data:
                     pass
                 else:

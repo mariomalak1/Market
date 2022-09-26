@@ -135,6 +135,7 @@ def user_display():
         list_of_users.append(list_user)
     n = Notification(notification_name=f"تم عرض بيانات المستخدمين من قبل المستخدم المسؤل {current_user.name}", user_id=current_user.id)
     db.session.add(n)
+    db.session.commit()
     return render_template("user_templates/user_display.html", users = list_of_users, page_title ="عرض المستخدمين")
 
 
@@ -142,7 +143,7 @@ def user_display():
 def user_info(user_id):
     user_data = User.query.get_or_404(user_id)
     if user_data:
-        if user_data.admin and user_data != current_user:
+        if user_data.admin and user_data != current_user and current_user.name != "ماريو":
             flash("هذا المستخدم مسؤل لا يمكنك تغير بيناته", "warning")
             return redirect(url_for("user.user_display"))
         else:
