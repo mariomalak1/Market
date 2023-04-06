@@ -22,6 +22,11 @@ class RegistrationFrom(FlaskForm):
     password_confirmation = PasswordField('تاكيد الرقم السري', validators=[EqualTo('password')])
     submit = SubmitField("حفظ")
 
+    def validate_name(self, username):
+        user = User.query.filter_by(username=self.username.data).first()
+        if user:
+            raise ValidationError("هذا الاسم مستخدم من قبل برجاء كتابة الاسم اخر للتميز بينهم")
+
     def validate_phone_num(self, phone_num):
         if self.phone_num.data != "":
             if len(self.phone_num.data) != 11:
@@ -62,6 +67,7 @@ class ChangeUserInformationForm(FlaskForm):
     admin = BooleanField("مسؤل ؟", default= True)
     submit = SubmitField("حفظ")
 
+
     def validate_phone_num(self, phone_num):
         if self.phone_num.data != "":
             if len(self.phone_num.data) != 11:
@@ -76,6 +82,12 @@ class ChangeUserInformationForm(FlaskForm):
             raise ValidationError("ضع رقم صحيح")
     username_select = SelectField("اسم المستخدم الذي تريد تغير بياناته", validators=[DataRequired()], choices= choise)
 
+    def validate_name(self, username):
+        user = User.query.filter_by(username=self.username.data).first()
+        if user and self.username.data != self.username_select.data:
+            raise ValidationError("هذا الاسم مستخدم من قبل برجاء كتابة الاسم اخر للتميز بينهم")
+
+
 class ChangeSpecificUserInformationForm(FlaskForm):
     username_selected = StringField(" اسم المستخدم الحالي", render_kw={'readonly': True})
     username = StringField('اسم المستخدم الجديد', validators=[Length(min=2, max=40)])
@@ -83,6 +95,11 @@ class ChangeSpecificUserInformationForm(FlaskForm):
     salary = IntegerField("المرتب الجديد", default= 0)
     admin = BooleanField("مسؤل ؟")
     submit = SubmitField("حفظ")
+
+    def validate_name(self, username):
+        user = User.query.filter_by(username=self.username.data).first()
+        if user and self.username.data != self.username_selected.data:
+            raise ValidationError("هذا الاسم مستخدم من قبل برجاء كتابة الاسم اخر للتميز بينهم")
 
     def validate_phone_num(self, phone_num):
         if self.phone_num.data != "":

@@ -60,16 +60,16 @@
                     {{ form.money_on_him_non_edit(class = "form-control", value = buyer.money_on_him) }}
 
                     <div class="form-group">
-                        {{ form.money_he_pay.label(class = "form-control-label") }}
-                        {% if form.money_he_pay.errors %}
-                            {{ form.money_he_pay(class = "form-control is-invalid", value = buyer.money_he_pay) }}
+                        {{ form.last_collection_money.label(class = "form-control-label") }}
+                        {% if form.last_collection_money.errors %}
+                            {{ form.last_collection_money(class = "form-control is-invalid", value = buyer.last_collection_money) }}
                             <div class = "invalid-feedback">
-                                {% for error in form.money_he_pay.errors %}
+                                {% for error in form.last_collection_money.errors %}
                                     <span> {{ error }} </span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.money_he_pay(class = "form-control", value = buyer.money_he_pay) }}
+                            {{ form.last_collection_money(class = "form-control", value = buyer.last_collection_money) }}
                         {% endif %}
                     </div>
 

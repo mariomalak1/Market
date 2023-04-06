@@ -66,12 +66,11 @@
                     </div>
 
                     <div class="form-check">
-                        {{ form.admin(class = "form-check-input") }}
+                        {{ form.admin(class = "form-check-input", value = user.admin) }}
                         {{ form.admin.label(class = "form-check-label")}}
                     </div>
                     <br>
-
-                    {{ form.submit(class="btn btn-primary") }}
+                    {{ form.submit(class="btn btn-primary btn-lg btn-block") }}
                 </fieldset>
             </form>
         </div>

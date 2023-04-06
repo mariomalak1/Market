@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 
+
 app = Flask(__name__)
 db = SQLAlchemy(app)
 by = Bcrypt(app)
@@ -17,8 +18,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///MarketApp.db"
 
 from Market.User.routes import user
 from Market.Buyer.routes import buyer
-from Market.Product.routes import product
 from Market.Main.routes import main
+from Market.Product.routes import product
 
 app.register_blueprint(user)
 app.register_blueprint(buyer)

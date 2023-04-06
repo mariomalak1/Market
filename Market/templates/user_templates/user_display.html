@@ -14,22 +14,22 @@
       {% for user in users %}
           <tr>
 
-            <td> <a href="{{ url_for("user.user_info", user_id = user[5]) }}"> {{ user[4] }} </a> </td>
+            <td> <a href="{{ url_for("user.user_info", user_id = user[0].id) }}"> {{ user[1] }} </a> </td>
 
-            <td> <a href="{{ url_for("user.user_info", user_id = user[5]) }}"> {{ user[0] }} </a> </td>
+            <td> <a href="{{ url_for("user.user_info", user_id = user[0].id) }}"> {{ user[0].name }} </a> </td>
 
-            {% if user[3] == "" %}
-               <td> <a href="{{ url_for("user.user_info", user_id = user[5]) }}"> لا يوجد</a> </td>
+            {% if user[0].phone_num == "" %}
+               <td> <a href="{{ url_for("user.user_info", user_id = user[0].id) }}"> لا يوجد</a> </td>
             {% else %}
-               <td> <a href="{{ url_for("user.user_info", user_id = user[5]) }}"> {{ user[3] }} </a> </td>
+               <td> <a href="{{ url_for("user.user_info", user_id = user[0].id) }}"> {{ user[0].phone_num }} </a> </td>
             {% endif %}
 
-               <td> <a href="{{ url_for("user.user_info", user_id = user[5]) }}"> {{ user[2] }} </a> </td>
+               <td> <a href="{{ url_for("user.user_info", user_id = user[0].id) }}"> {{ user[0].salary }} </a> </td>
 
-            {% if user[1] %}
-                <td> <a href="{{ url_for("user.user_info", user_id = user[5]) }}"> مسؤل </a> </td>
+            {% if user[0].admin %}
+                <td> <a href="{{ url_for("user.user_info", user_id = user[0].id) }}"> مسؤل </a> </td>
             {% else %}
-                <td> <a href="{{ url_for("user.user_info", user_id = user[5]) }}">غير مسؤل </a> </td>
+                <td> <a href="{{ url_for("user.user_info", user_id = user[0].id) }}">غير مسؤل </a> </td>
             {% endif %}
 
         </tr>

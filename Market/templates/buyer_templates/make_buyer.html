@@ -84,17 +84,17 @@
                         {% endif %}
                       </div>
                       <div class="form-group" >
-                        {{ form.money_he_pay.label(class = "form-control-label") }}
-                        {% if form.money_on_him.errors %}
-                            {{ form.money_he_pay(class = "form-control is-invalid") }}
+                        {{ form.last_collection_money.label(class = "form-control-label") }}
+                        {% if form.last_collection_money.errors %}
+                            {{ form.last_collection_money(class = "form-control is-invalid") }}
                             <div class = "invalid-feedback">
-                                {% for error in form.money_he_pay.errors %}
+                                {% for error in form.last_collection_money.errors %}
                                     <span> {{ error }} </span>
                                     <br>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.money_he_pay(class = "form-control") }}
+                            {{ form.last_collection_money(class = "form-control") }}
                         {% endif %}
                       </div>
 

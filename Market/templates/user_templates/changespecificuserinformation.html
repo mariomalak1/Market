@@ -65,7 +65,34 @@
                     </div>
                     <br>
 
-                    {{ form.submit(class="btn btn-primary") }}
+                    {{ form.submit(class="btn btn-primary btn-lg btn-block") }}
+                    {% if current_user.IsAdmin() %}
+
+                    <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#deleteModal">مسح المستخدم</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">تاكيد مسح المستخدم</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            هل انت متاكد انك تريد ان تمسح هذا المستخدم ؟<br>
+                              لاجظ ان كل المدخلات التي ادخلها هذا المستخدم سوف تذهب اليك في حالة مسح هذا المستخدم
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                            <a type="button" href="{{ url_for("user.delete_user", user_id = user.id, place = "main.admin_panel") }}" class="btn btn-danger">تاكيد</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end of modal  -->
+
+                {% endif %}
                 </fieldset>
             </form>
         </div>

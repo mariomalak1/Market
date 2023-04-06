@@ -9,7 +9,9 @@ class Buyer(db.Model):
     goods = db.relationship('Commodity', backref = "buyer", lazy = True)
     user_created_buyer_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     money_on_him = db.Column(db.Integer, nullable= True, default= 0)
-    money_he_pay = db.Column(db.Integer, nullable= True, default= 0)
+    last_collection_money = db.Column(db.Integer, nullable= True, default= 0)
+    last_collection_date = db.Column(db.DateTime, nullable= True)
+    last_collection_user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
 
     def __repr__(self):

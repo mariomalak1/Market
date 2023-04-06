@@ -1,0 +1,31 @@
+{% extends "main/base.html" %}
+{% block body %}
+    <div>
+    <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("main.admin_panel") }}">الادارة</a>
+    </div>
+    <br>
+    <div class="list-group">
+        {% for n in last_notification.items %}
+          <a class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+{#              <h5 class="mb-1">اسم الاشعار</h5>#}
+              <small>{{ n.date.strftime("%Y-%m-%d %H:%M:%S") }}</small>
+            </div>
+            <p class="mb-1">{{ n.notification_name }}</p>
+            <small>اسم المستخدم : {{ n.user.name }}</small>
+          </a>
+        {% endfor %}
+    </div>
+    <br>
+    {% for page_num in last_notification.iter_pages(left_edge= 1, right_edge = 1, left_current = 1, right_current= 2) %}
+            {% if page_num %}
+                {% if page_num == last_notification.page %}
+                    <a class="btn btn-info mb-4" href="{{ url_for("main.display_all_notification", page = page_num) }}">{{ page_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-info" href="{{ url_for("main.display_all_notification", page = page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+    {% endfor %}
+{% endblock %}

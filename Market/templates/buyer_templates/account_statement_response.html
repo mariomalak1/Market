@@ -3,9 +3,9 @@
     <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("buyer.account_statement") }}">كشف حساب اخر</a>
 
     <a class="btn btn-primary btn-lg btn-block"
-    href="{{ url_for("buyer.buyer.make_pdf", buyer_id = buyer_id, user_id = user_id, date_from = date_from, date_to =date_to, ) }}">تنزيل كشف الحساب</a>
+    href="{{ url_for("buyer.buyer.make_pdf", buyer_id = buyer_id, user_id = user_id, date_from = date_from, date_to =date_to ) }}">تنزيل كشف الحساب</a>
     {% if current_user.IsAdmin() %}
-        <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("admin_panel") }}">الادارة</a>
+        <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("main.admin_panel") }}">الادارة</a>
     {% endif %}
     <br>
 
@@ -33,7 +33,7 @@
             <td> <a> {{ product[2].name }} </a> </td>
             <td> <a> {{ product[1].pay_quantity }} </a> </td>
             <td> <a> {{ product[2].discount }} </a> </td>
-            <td> <a> {{ product[1].date }} </a> </td>
+            <td> <a> {{ product[1].date.strftime("%Y-%m-%d") }} </a> </td>
             <td> <a> {{ product[3].name }} </a> </td>
         </tr>
 

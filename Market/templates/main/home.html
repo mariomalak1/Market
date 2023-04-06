@@ -9,12 +9,20 @@
             <div class="btn btn-primary btn-lg btn-block">ادخال مشتريات </div>
         </a>
         <br>
+        <a href="{{ url_for("buyer.money_collection") }}">
+            <div class="btn btn-primary btn-lg btn-block">ادخال تحصيل</div>
+        </a>
+        <br>
         <a href="{{ url_for("buyer.account_statement") }}">
             <div class="btn btn-primary btn-lg btn-block">كشف حساب </div>
         </a>
         <br>
         <a href="{{ url_for("buyer.get_buyer_name") }}">
             <div class="btn btn-primary btn-lg btn-block">تغير بيانات مشتري </div>
+        </a>
+        <br>
+        <a href="{{ url_for("product.find_product") }}">
+            <div class="btn btn-primary btn-lg btn-block">تغير بيانات منتج </div>
         </a>
         <br>
     </div>

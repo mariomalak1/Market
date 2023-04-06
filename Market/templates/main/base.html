@@ -1,101 +1,120 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='master_mario.css') }}">
-    <!-- to add anything as you want in head -->
-    {% block head %}
-    {% endblock %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='master_mario.css') }}">
+        <!-- to add anything as you want in head -->
+        {% block head %}
+        {% endblock %}
 
-    {% if title %}
-        <title>{{ title }}</title>
-    {% else %}
-        <title>Market</title>
-    {% endif %}
-</head>
-<body>
+        {% if title %}
+            <title>{{ title }}</title>
+        {% else %}
+            <title>Market</title>
+        {% endif %}
+    </head>
+    <body>
+        <div id="page-container">
+            <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" style="background-color: rgba(0,0,0,0.7)">
+                <div class="container">
+                  {% block login_page %}
+    {#                  <div class="navbar-brand">#}
+    {#           {{ url_for("static", filename = "mariologo.png") }}#}
+    {#                      <img src="https://www.behance.net/gallery/150142995/Mario/modules/847853501" width="30" height="30" class="d-inline-block align-top" alt="">#}
+    {#                  </div>#}
+                      <a class="navbar-brand mr-4" href="{{ url_for("main.home") }}">الرئيسية</a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarToggle">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    خيارات
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ url_for("user.change_password") }}">تغير الرقم السري</a>
+                                    {% if current_user.IsAdmin() %}
+                                        <a class="dropdown-item" href="{{ url_for("user.change_user_information") }}">تغير بيانات لمستخدم</a>
+                                        {% block admin_panel %}
+                                            <a class="dropdown-item" href="{{ url_for("main.admin_panel") }}">لوحة الادارة</a>
+                                        {% endblock %}
+                                    {% endif %}
 
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-          <div class="container">
-          <a class="navbar-brand mr-4" href="{{ url_for("main.home") }}">الرئيسية</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            {% block login_page %}
+                                    <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="{{ url_for("user.logout") }}">تسجيل خروج</a>
+                                </div>
+                            </div>
 
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        خيارات
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{{ url_for("user.change_password") }}">تغير الرقم السري</a>
-                        {% if current_user.IsAdmin() %}
-                            <a class="dropdown-item" href="{{ url_for("user.change_user_information") }}">تغير بيانات لمستخدم</a>
-                            {% block admin_panel %}
-                                <a class="dropdown-item" href="{{ url_for("user.admin_panel") }}">لوحة الادارة</a>
+
+
+                            <div class="navbar-nav mr-auto">
+
+                {#              <a class="nav-item nav-link" href="{{ url_for("home") }}">Home</a>#}
+                {#              <a class="nav-item nav-link" href="{{ url_for("") }}">About</a>#}
+                            </div>
+                {% endblock %}
+
+              </div>
+            </div>
+          </nav>
+        </header>
+            <div id="content-wrap">
+                <main role="main" class="container">
+
+                    <div class="row" >
+                        <div class="col-md-8">
+                            {% with messeages = get_flashed_messages(with_categories = true) %}
+                                {% if messeages %}
+                                    {% for gategory,message  in messeages %}
+                                        <div class = "alert alert-{{ gategory }}">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                            {% if page_title %}
+                                <div class = "page-header">
+                                    <h2>{{ page_title }}</h2>
+                                </div>
+                                <br>
+                            {% endif %}
+
+                            {% block body %}
                             {% endblock %}
-                        {% endif %}
+                        </div>
 
-                        <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{{ url_for("user.logout") }}">تسجيل خروج</a>
+                          <!-- sidebar -->
+                            {% block sidebar %}
+                            {% endblock %}
+
+                    </div>
+
+                </main>
+            </div>
+
+            <!--footer-->
+            <footer class="bg-dark text-center text-white" id="footer">
+              <!-- Copyright -->
+                <div class="bg-dark py-2">
+                    <div class="container text-center">
+                        <p class="text-muted mb-0 py-2">Programing of website made by Mario-Malak@2022</p>
                     </div>
                 </div>
+              <!-- Copyright -->
+            </footer>
 
-
-
-                <div class="navbar-nav mr-auto">
-
-    {#              <a class="nav-item nav-link" href="{{ url_for("home") }}">Home</a>#}
-    {#              <a class="nav-item nav-link" href="{{ url_for("") }}">About</a>#}
-                </div>
-
-
-
-            {% endblock %}
-
-          </div>
+            <!-- Optional JavaScript -->
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         </div>
-      </nav>
-    </header>
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8">
-
-          {% with messeages = get_flashed_messages(with_categories = true) %}
-              {% if messeages %}
-                  {% for gategory,message  in messeages %}
-                      <div class = "alert alert-{{ gategory }}">
-                        {{ message }}
-                      </div>
-                  {% endfor %}
-              {% endif %}
-          {% endwith %}
-            {% if page_title %}
-                <div class = "page-header">
-                    <h2>{{ page_title }}</h2>
-                </div>
-                <br>
-            {% endif %}
-          {% block body %}
-          {% endblock %}
-        </div>
-
-      </div>
-    </main>
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

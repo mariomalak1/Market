@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 {% block body %}
     <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("buyer.choose_date") }}">عرض تاريخ اخر</a>
-    <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("user.admin_panel") }}">الادارة</a>
+    <a class="btn btn-primary btn-lg btn-block" href="{{ url_for("main.admin_panel") }}">الادارة</a>
     <br>
 
     <table class="table table-hover table-dark">
@@ -19,20 +19,33 @@
         </tr>
       </thead>
       <tbody>
-      {% for product in products %}
+      {% for product in products.items %}
+
           <tr>
-            <td> <a> {{ product[0] }} </a> </td>
-            <td> <a> {{ product[1].name }} </a> </td>
-            <td> <a> {{ product[1].quantity }} </a> </td>
-            <td> <a> {{ product[1].price }} </a> </td>
-            <td> <a> {{ product[2].name }} </a> </td>
-            <td> <a> {{ product[1].pay_quantity }} </a> </td>
-            <td> <a> {{ product[2].discount }} </a> </td>
-            <td> <a> {{ product[1].date }} </a> </td>
-            <td> <a> {{ product[3].name }} </a> </td>
+            <td> <a href="{{ url_for("product.product_edit", product_id = product[1].id, place = "sales_one_day") }}"> {{ product[0] }} </a> </td>
+            <td> <a href="{{ url_for("product.all_this_product", product_id = product[1].id) }}"> {{ product[1].name }} </a> </td>
+            <td> <a href="{{ url_for("product.product_edit", product_id = product[1].id, place = "sales_one_day") }}"> {{ product[1].quantity }} </a> </td>
+            <td> <a href="{{ url_for("product.product_edit", product_id = product[1].id, place = "sales_one_day") }}"> {{ product[1].price }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id= product[2].id, place = "sales_one_day") }}"> {{ product[2].name }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id= product[2].id, place = "sales_one_day") }}"> {{ product[1].pay_quantity }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id= product[2].id, place = "sales_one_day") }}"> {{ product[2].discount }} </a> </td>
+            <td> <a href="{{ url_for("product.product_edit", product_id = product[1].id, place = "sales_one_day") }}"> {{ product[1].date.strftime("%Y-%m-%d") }} </a> </td>
+            <td> <a href="{{ url_for("user.user_info", user_id = product[3].id) }}"> {{ product[3].name }} </a> </td>
         </tr>
 
       {% endfor %}
       </tbody>
     </table>
+    {% for page_num in products.iter_pages(left_edge= 1, right_edge = 1, left_current = 1, right_current= 2) %}
+        {% if page_num %}
+            {% if page_num == products.page %}
+                <a class="btn btn-info mb-4" href="{{ url_for("product.sales_one_day", page = page_num, day = day, month = month, year = year) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info" href="{{ url_for("product.sales_one_day", page = page_num, day = day, month = month, year = year) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+                ...
+        {% endif %}
+    {% endfor %}
+    <br>
 {% endblock %}

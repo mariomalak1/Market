@@ -6,7 +6,7 @@
             <th scope="col">مسلسل رقم</th>
             <th scope="col">اسم المشتري</th>
             <th scope="col">الفلوس اللي عليه</th>
-            <th scope="col">الفلوس اللي دفعها</th>
+            <th scope="col">اخر تحصيل</th>
             <th scope="col">خصم له</th>
             <th scope="col">رقم التليفون</th>
             <th scope="col">عدد منتجاته</th>
@@ -17,21 +17,31 @@
       {% for buyer in buyers %}
           <tr>
 
-            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[5], place = "buyers_display") }}"> {{ buyer[3] }} </a> </td>
-            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[5], place = "buyers_display") }}"> {{ buyer[0] }} </a> </td>
-            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[5], place = "buyers_display") }}"> {{ buyer[6] }} </a> </td>
-            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[5], place = "buyers_display") }}"> {{ buyer[7] }} </a> </td>
-            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[5], place = "buyers_display") }}"> {{ buyer[2] }} </a> </td>
-              {% if buyer[1] %}
-            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[5], place = "buyers_display") }}"> {{ buyer[1] }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[1].id, place = "buyers_display") }}"> {{ buyer[0] }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[1].id, place = "buyers_display") }}"> {{ buyer[1].name }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[1].id, place = "buyers_display") }}"> {{ buyer[1].money_on_him }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[1].id, place = "buyers_display") }}"> {{ buyer[1].last_collection_money }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[1].id, place = "buyers_display") }}"> {{ buyer[1].discount }} </a> </td>
+              {% if buyer[1].phone_num %}
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[1].id, place = "buyers_display") }}"> {{ buyer[1].phone_num }} </a> </td>
               {% else %}
-            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[5], place = "buyers_display") }}"> لا يوجد </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[1].id, place = "buyers_display") }}"> لا يوجد </a> </td>
               {% endif %}
-            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[5], place = "buyers_display") }}"> {{ buyer[8] }} </a> </td>
-            <td> <a href="{{ url_for("user.user_info", user_id = buyer[4].id, place = "buyers_display") }}"> {{ buyer[4].name }} </a> </td>
+            <td> <a href="{{ url_for("buyer.buyer_edit_admin_user", buyer_id = buyer[1].id, place = "buyers_display") }}"> {{ buyer[3] }} </a> </td>
+            <td> <a href="{{ url_for("user.user_info", user_id = buyer[2].id, place = "buyers_display") }}"> {{ buyer[2].name }} </a> </td>
         </tr>
-
       {% endfor %}
       </tbody>
     </table>
+    {% for page_num in buyers_pagination.iter_pages(left_edge= 1, right_edge = 1, left_current = 1, right_current= 2) %}
+        {% if page_num %}
+            {% if page_num == buyers_pagination.page %}
+                <a class="btn btn-info mb-4" href="{{ url_for("buyer.buyers_display", page = page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info" href="{{ url_for("buyer.buyers_display", page = page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
 {% endblock %}
