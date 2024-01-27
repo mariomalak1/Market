@@ -29,10 +29,8 @@ def admin_panel():
     db.session.commit()
 
     last_notification = []
-    n = Notification.query.order_by(Notification.date.desc()).all()
-    for i in range(6):
-        last_notification.append(n[i])
-    return render_template("main/admin_panel.html", page_title ="صفحة الادارة و التحكم", total_money_in_market = total_money_in_market, last_notification = last_notification )
+    n = Notification.query.order_by(Notification.date.desc()).limit(6).all()
+    return render_template("main/admin_panel.html", page_title ="صفحة الادارة و التحكم", total_money_in_market = total_money_in_market, last_notification = n)
 
 @main.route("/display_all_notification", endpoint= "display_all_notification")
 @current_user_is_admin

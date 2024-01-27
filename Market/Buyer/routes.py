@@ -9,7 +9,7 @@ from flask_login import current_user, login_required
 from Market.User.routes import current_user_is_admin
 import pdfkit
 import io
-from PyPDF2 import PdfFileReader, PdfFileWriter, PdfMerger
+from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 
 # Buyer routes is here
 
@@ -165,18 +165,18 @@ def account_statement_response(buyer_id, date_from_day, date_from_month, date_fr
             # variable to make pdf bytes as file to edit it
             input_stream_bytes = io.BytesIO(pdf)
             # to read the pdf file
-            reader = PdfFileReader(input_stream_bytes, 'r')
+            reader = PdfReader(input_stream_bytes, 'r')
 
             # to crop the important part in pdf page
-            page = reader.getPage(0)
-            page.cropBox.setLowerLeft((0, 215))
-            page.cropBox.setUpperLeft((0, 842))
-            page.cropBox.setUpperRight((595, 842))
-            page.cropBox.setLowerRight((595, 215))
+            page = reader.pages[0]
+            page.cropbox.lower_left = (0, 215)
+            page.cropbox.upper_left = (0, 842)
+            page.cropbox.upper_right = (595, 842)
+            page.cropbox.lower_right = (595, 215)
 
             # to write the important part in a variable as file
-            writer = PdfFileWriter()
-            writer.addPage(page)
+            writer = PdfWriter()
+            writer.add_page(page)
             # variable that the output stream of writer object write in it
             output_pdf_writer = io.BytesIO()
 

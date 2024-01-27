@@ -256,7 +256,7 @@ def sales_one_day(day, month, year):
                 start = (page - 1) * per_page
                 end = start + per_page
                 items = list_of_products[start:end]
-                pagination = Pagination(None, page, per_page, len(list_of_products), items)
+                pagination = Pagination(None, page=page, per_page=per_page, total=len(list_of_products), items=items)
                 n = Notification(notification_name=f"""تم عرض كل المنتجات المباعة اليوم من قبل المستخدم المسؤل : {current_user.name}""",
                     user_id=current_user.id)
                 db.session.add(n)
