@@ -8,7 +8,6 @@ what this project add to me:
 
 - create invoice as pdf 
 - advanced things in sqlalchemy and database
-- 
 
 to install and run the project:
 
